@@ -37,10 +37,10 @@ def publish():
         hum = sensorDht.humidity()
         temp_f = temp * (9/5) + 32.0
         distance = sensorUltraSonic.distance_cm()
-        print('Temperature: %3.1f C' %temp)
-        print('Temperature: %3.1f F' %temp_f)
-        print('Humidity: %3.1f %%' %hum)
-        print('Distance:', distance, 'cm')
+        # print('Temperature: %3.1f C' %temp)
+        # print('Temperature: %3.1f F' %temp_f)
+        # print('Humidity: %3.1f %%' %hum)
+        # print('Distance:', distance, 'cm')
         # if gps_serial.any():
         #    line = gps_serial.readline()  # Read a complete line from the UART
         # if line:
@@ -53,6 +53,6 @@ def publish():
 
         client.publish(b"/v1.6/devices/ESP32_THSS", msg)
 
-        sleep(20)
+        sleep(2)
 
 publish()
