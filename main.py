@@ -11,6 +11,7 @@ ubidotsToken = "BBUS-09DidGsAEKGqkJ7U76nm3btnWFjgHP"
 clientID = "esp32wroom32"
 sensorDht = dht.DHT22(m.Pin(15))
 sensorUltraSonic = HCSR04(trigger_pin=5, echo_pin=18, echo_timeout_us=10000)
+led = m.Pin(27, m.Pin.OUT)
 client = MQTTClient("clientID", "industrial.api.ubidots.com", 1883, user = ubidotsToken, password = ubidotsToken)
 
 def checkwifi():
@@ -24,6 +25,13 @@ def checkwifi():
         sta_if.connect()
 
 pin13 = m.Pin(13, m.Pin.IN, m.Pin.PULL_UP)
+
+def led_cb(topic, msg):
+    print((topic, msg))
+    if msg.decode() == '1':
+        led.value(1)
+    else:
+        led.value(0)
 
 def publish():
 
@@ -55,4 +63,12 @@ def publish():
 
         sleep(2)
 
+def subscribe():
+    client.set_callback(led_cb)
+    client.subscribe(b"/v1.6/devices/ESP32_THSS/led/value")
+
+    while True:
+        client.wait_msg()
+    
+    
 publish()
