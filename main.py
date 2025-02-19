@@ -1,5 +1,6 @@
 from umqtt.robust import MQTTClient
 from time import sleep, sleep_ms
+from hcsr04 import HCSR04
 import machine as m
 import dht
 
