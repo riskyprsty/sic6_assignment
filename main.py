@@ -4,6 +4,7 @@ from hcsr04 import HCSR04
 import machine as m
 import dht
 
+
 ubidotsToken = "BBUS-09DidGsAEKGqkJ7U76nm3btnWFjgHP"
 
 # gps_serial = m.UART(2, baudrate=9600, tx=35, rx=32)
@@ -48,6 +49,7 @@ def publish():
         #     print(line.strip())
         # sleep(0.5)
         # msg = b'{"location": {"value":%s, "context":{"lat":%s, "lng":%s}}}' % (var, lat, lng)
+      
         msg = b'{"temperature": {"value":%s}, "humidity": {"value":%s}, "distance": {"value":%s}}' % (temp, hum, distance)
         print(msg)
 
