@@ -34,6 +34,14 @@ class MQTTClient(simple.MQTTClient):
                 self.log(False, e)
             self.reconnect()
 
+    # def subscribe(self, topic, qos=0):
+    #     while True:
+    #         try:
+    #             return super().subscribe(topic, qos)
+    #         except OSError as e:
+    #             self.log(False, e)
+    #         self.reconnect()
+
     def wait_msg(self):
         while 1:
             try:

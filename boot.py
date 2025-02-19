@@ -8,7 +8,7 @@ sta_if = network.WLAN(network.STA_IF); sta_if.active(True)
 
 sta_if.scan() 
 
-sta_if.connect("kelompok 4", "nopankebab")
+sta_if.connect("TP-Link_AD7C", "88515762")
 
 sta_if.isconnected()
 
