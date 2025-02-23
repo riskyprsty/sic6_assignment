@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESP32-CAM Live</title>
+    <script>
+        function reloadImage() {
+            document.getElementById("camera-feed").src = "/static/esp32cam.jpg?" + new Date().getTime();
+        }
+        setInterval(reloadImage, 5000); 
+    </script>
+</head>
+<body>
+    <h2>ESP32-CAM Live Stream</h2>
+    <img id="camera-feed" src="/static/esp32cam.jpg" width="640" height="480">
+</body>
+</html>
