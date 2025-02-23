@@ -67,9 +67,11 @@ def publish():
                     if status is not None:
                         lat = convert_to_decimal(my_gps.latitude, my_gps.latitude[2])
                         lon = convert_to_decimal(my_gps.longitude, my_gps.longitude[2])
+                        sat = my_gps.satellites_in_use
+                        alt = my_gps.altitude
                         var = repr(pin13.value())
                         
-                        msg = b'{"location": {"value":%s, "context":{"lat":%s, "lng":%s}}}' % (var, lat, lon)
+                        msg = b'{"location": {"value":%s, "context":{"lat":%s, "lng":%s}}, "sattelite": {"value":%s}, "altitude": {"value":%s}}' % (var, lat, lon, sat, alt)
                         
                         client.publish(b"/v1.6/devices/ESP32_THSS", msg)
                     
