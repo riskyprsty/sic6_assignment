@@ -1,6 +1,26 @@
 from flask import Flask, request, render_template
 import base64
 import os
+import pymongo # meng-import library pymongo yang sudah kita install
+
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
+
+uri = "mongodb+srv://UNI022:UNI022@cluster0.ac7up.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+
+# Create a new client and connect to the server
+client = MongoClient(uri, server_api=ServerApi('1'))
+
+# Send a ping to confirm a successful connection
+try:
+    client.admin.command('ping')
+    print("Pinged your deployment. You successfully connected to MongoDB!")
+except Exception as e:
+    print(e)
+
+db = client["UNI022"]
+collection = db["assignment_2"]
+
 
 app = Flask(__name__)
 UPLOAD_FOLDER = "static"
@@ -22,6 +42,15 @@ def upload():
         img_file.write(base64.b64decode(data))
 
     return "Gambar diterima!", 200
+
+@app.route("/send_data", methods=["GET"])
+def insert_data():
+    data = {'p':12}
+    resume = collection.insert_one(data)
+    print(resume.inserted_id) 
+    return "Gambar diterima!", 200
+
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
