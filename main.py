@@ -34,13 +34,10 @@ def convert_to_decimal(degrees, direction):
 def led_cb(topic, msg):
     print((topic, msg))
     if msg.decode() == '1.0':
-        print("nyala")
+        print("LED ON")
         led.value(1)
     else:
         led.value(0)
-    if topic == b'notification' and msg == b'received':
-        print('ESP received hello message')
-
 
 try:
     client.connect()
