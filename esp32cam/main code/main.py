@@ -8,6 +8,14 @@ SSID = "Realme GT Neo 3"
 PASSWORD = "qwertyuiop1"
 SERVER_URL = "http://192.168.249.119:5000/upload" 
 
+"""
+ESP32 MICROPYTHON UBIDOTS PROJECT
+-- The Hash Slinging Slasher --
+-- UNI022 --
+-- PENS --
+
+Assignment Samsung Innovation Campus 6
+"""
 
 wifi = network.WLAN(network.STA_IF)
 wifi.active(True)
