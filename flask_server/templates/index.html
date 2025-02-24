@@ -1,18 +1,750 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ESP32-CAM Live</title>
-    <script>
-        function reloadImage() {
-            document.getElementById("camera-feed").src = "/static/esp32cam.jpg?" + new Date().getTime();
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Assigment 2 - The Hash Slinging Slasher</title>
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"
+    />
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary-color: #3a86ff;
+        --secondary-color: #8338ec;
+        --success-color: #06d6a0;
+        --dark-color: #212529;
+        --light-color: #f8f9fa;
+        --danger-color: #ff4d6d;
+      }
+
+      body {
+        background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        color: var(--dark-color);
+      }
+
+      .main-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 2rem;
+        position: relative;
+      }
+
+      .header h2 {
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+        font-size: 2.2rem;
+      }
+
+      .header p {
+        color: #6c757d;
+        font-size: 1.1rem;
+      }
+
+      .status-indicator {
+        display: inline-block;
+        margin-left: 10px;
+        height: 12px;
+        width: 12px;
+        border-radius: 50%;
+        background-color: var(--success-color);
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(0.95);
+          box-shadow: 0 0 0 0 rgba(6, 214, 160, 0.7);
         }
-        setInterval(reloadImage, 5000); 
+
+        70% {
+          transform: scale(1);
+          box-shadow: 0 0 0 10px rgba(6, 214, 160, 0);
+        }
+
+        100% {
+          transform: scale(0.95);
+          box-shadow: 0 0 0 0 rgba(6, 214, 160, 0);
+        }
+      }
+
+      .card {
+        border-radius: 15px;
+        overflow: hidden;
+        margin-bottom: 2rem;
+        background-color: white;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+        border: none;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+      }
+
+      .card-header {
+        background-color: var(--primary-color);
+        color: white;
+        border-bottom: none;
+        padding: 1rem 1.5rem;
+        font-weight: 600;
+        font-size: 1.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .card-header i {
+        margin-right: 10px;
+      }
+
+      .card-body {
+        padding: 1.5rem;
+      }
+
+      .img-container {
+        display: flex;
+        justify-content: center;
+        padding: 1rem;
+        background: rgba(0, 0, 0, 0.02);
+        border-radius: 10px;
+      }
+
+      .img-fluid {
+        border-radius: 8px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        max-height: 500px;
+        width: auto;
+        object-fit: contain;
+        border: 3px solid white;
+      }
+
+      .data-label {
+        color: var(--secondary-color);
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+
+      .refresh-info {
+        text-align: center;
+        color: #6c757d;
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
+      }
+
+      .table-responsive {
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .table {
+        margin-bottom: 0;
+        width: 100%;
+      }
+
+      .table th {
+        background: linear-gradient(
+          to right,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        color: white;
+        font-weight: 600;
+        border: none;
+        padding: 1rem;
+        white-space: nowrap;
+      }
+
+      .table td {
+        padding: 0.75rem 1rem;
+        vertical-align: middle;
+        border-color: #eef0f7;
+      }
+
+      /* Fix for content overflow in table cells */
+      .table td .truncate-text {
+        max-width: 150px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: block;
+      }
+
+      .table td .truncate-id {
+        max-width: 80px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: block;
+      }
+
+      .table td.expandable-cell {
+        max-width: 150px;
+        position: relative;
+      }
+
+      .table td.expandable-cell:hover .truncate-text,
+      .table td.expandable-cell:hover .truncate-id {
+        white-space: normal;
+        overflow: visible;
+        position: absolute;
+        background-color: white;
+        z-index: 10;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        padding: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .table-hover tbody tr:hover {
+        background-color: rgba(58, 134, 255, 0.05);
+      }
+
+      .table tr:nth-child(even) {
+        background-color: rgba(248, 249, 250, 0.5);
+      }
+
+      .value-highlight {
+        font-weight: 600;
+        color: var(--primary-color);
+      }
+
+      .footer {
+        text-align: center;
+        margin-top: 2rem;
+        color: #6c757d;
+        font-size: 0.9rem;
+      }
+
+      .btn-danger {
+        background-color: var(--danger-color);
+        border-color: var(--danger-color);
+      }
+
+      .btn-danger:hover {
+        background-color: #ff2a50;
+        border-color: #ff2a50;
+      }
+
+      .delete-btn-container {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 1rem;
+      }
+
+      .flash-messages {
+        margin-bottom: 1.5rem;
+      }
+
+      /* Confirmation modal */
+      .modal-content {
+        border-radius: 15px;
+        border: none;
+      }
+
+      .modal-header {
+        background-color: var(--danger-color);
+        color: white;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        border-bottom: none;
+      }
+
+      .modal-footer {
+        border-top: none;
+      }
+
+      /* Enhanced responsive table */
+      .custom-table-container {
+        overflow-x: auto;
+        width: 100%;
+        border-radius: 10px;
+        position: relative;
+      }
+
+      .table-scroll-indicator {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgba(0, 0, 0, 0.1);
+        color: black;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        display: none;
+        pointer-events: none;
+        z-index: 2;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 992px) {
+        .card-header {
+          padding: 1rem;
+          font-size: 1.1rem;
+        }
+
+        .table td,
+        .table th {
+          padding: 0.6rem 0.8rem;
+          font-size: 0.9rem;
+        }
+
+        .img-fluid {
+          max-width: 100%;
+          height: auto;
+        }
+
+        /* Show horizontal scroll hint */
+        .table-scroll-indicator {
+          display: block;
+        }
+
+        /* For smallest screens, stack the table */
+        .custom-table-small {
+          width: 100%;
+        }
+
+        .custom-table-small td {
+          display: flex;
+          padding: 0.5rem;
+          border: none;
+          border-bottom: 1px solid #eef0f7;
+        }
+
+        .custom-table-small tr {
+          display: block;
+          margin-bottom: 1rem;
+          border: 1px solid #eef0f7;
+          border-radius: 8px;
+          overflow: hidden;
+        }
+
+        .custom-table-small td:before {
+          content: attr(data-label);
+          font-weight: 600;
+          width: 120px;
+          min-width: 120px;
+          color: var(--secondary-color);
+        }
+      }
+
+      @media (max-width: 576px) {
+        .header h2 {
+          font-size: 1.8rem;
+        }
+
+        .card-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 10px;
+        }
+
+        .card-header div:last-child {
+          align-self: flex-end;
+        }
+      }
+    </style>
+    <script>
+      let refreshInterval = 5000; // 5 seconds by default
+      let countdown = refreshInterval / 1000;
+      let intervalId;
+
+      function reloadImage() {
+        document.getElementById("camera-feed").src =
+          "/static/esp32cam.jpg?" + new Date().getTime();
+        countdown = refreshInterval / 1000;
+        updateRefreshCounter();
+      }
+
+      function updateRefreshCounter() {
+        document.getElementById("refresh-countdown").textContent = countdown;
+        countdown--;
+      }
+
+      function changeRefreshRate(ms) {
+        clearInterval(intervalId);
+        refreshInterval = ms;
+        countdown = refreshInterval / 1000;
+        updateRefreshCounter();
+        intervalId = setInterval(reloadImage, refreshInterval);
+        setActiveButton(ms);
+      }
+
+      function setActiveButton(ms) {
+        const buttons = document.querySelectorAll(".refresh-btn");
+        buttons.forEach((btn) => {
+          if (parseInt(btn.getAttribute("data-ms")) === ms) {
+            btn.classList.add("btn-primary");
+            btn.classList.remove("btn-outline-primary");
+          } else {
+            btn.classList.remove("btn-primary");
+            btn.classList.add("btn-outline-primary");
+          }
+        });
+      }
+
+      function fadeOutScrollIndicator() {
+        const indicator = document.querySelector(".table-scroll-indicator");
+        if (indicator) {
+          setTimeout(() => {
+            indicator.style.opacity = "0";
+            indicator.style.transition = "opacity 1s";
+          }, 3000);
+        }
+      }
+
+      window.onload = function () {
+        setActiveButton(refreshInterval);
+        intervalId = setInterval(reloadImage, refreshInterval);
+        setInterval(updateRefreshCounter, 1000);
+
+        // Get current time
+        const timeElement = document.getElementById("current-time");
+        function updateTime() {
+          const now = new Date();
+          timeElement.textContent = now.toLocaleTimeString();
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // Handle scroll indicator
+        fadeOutScrollIndicator();
+
+        // Check if table needs responsive mode
+        const tableContainer = document.querySelector(
+          ".custom-table-container"
+        );
+        const table = document.querySelector(".main-table");
+
+        if (tableContainer && table) {
+          if (table.offsetWidth > tableContainer.offsetWidth) {
+            document.querySelector(".table-scroll-indicator").style.display =
+              "block";
+          }
+        }
+
+        // Toggle between table layouts based on screen size
+        function toggleTableLayout() {
+          const tables = document.querySelectorAll(".responsive-table");
+          if (window.innerWidth <= 767) {
+            tables.forEach((table) => {
+              table.classList.add("custom-table-small");
+            });
+          } else {
+            tables.forEach((table) => {
+              table.classList.remove("custom-table-small");
+            });
+          }
+        }
+
+        toggleTableLayout();
+        window.addEventListener("resize", toggleTableLayout);
+      };
     </script>
-</head>
-<body>
-    <h2>ESP32-CAM Live Stream</h2>
-    <img id="camera-feed" src="/static/esp32cam.jpg" width="640" height="480">
-</body>
+  </head>
+  <body>
+    <div class="main-container">
+      <div class="header">
+        <h2>
+          Assigment 2 - The Hash Slinging Slasher
+          <span class="status-indicator"></span>
+        </h2>
+        <p>Real-time sensor monitoring system</p>
+        <div id="current-time" class="text-muted mb-2"></div>
+      </div>
+
+      <!-- Flash Messages -->
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %}
+      <div class="flash-messages">
+        {% for category, message in messages %}
+        <div
+          class="alert alert-{{ category }} alert-dismissible fade show"
+          role="alert"
+        >
+          {{ message }}
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          ></button>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %} {% endwith %}
+
+      <div class="row">
+        <div class="col-lg-8 mb-4">
+          <div class="card h-100">
+            <div class="card-header">
+              <div><i class="fas fa-camera"></i> Live Camera Feed</div>
+            </div>
+            <div class="card-body">
+              <div class="img-container">
+                <img
+                  id="camera-feed"
+                  src="/static/esp32cam.jpg"
+                  class="img-fluid"
+                  alt="ESP32-CAM Feed"
+                />
+              </div>
+              <div class="refresh-info mt-3">
+                <div class="mb-2">
+                  Auto-refresh in <span id="refresh-countdown">5</span>s
+                </div>
+                <div class="btn-group" role="group">
+                  <button
+                    class="btn btn-sm btn-outline-primary refresh-btn"
+                    data-ms="2000"
+                    onclick="changeRefreshRate(2000)"
+                  >
+                    2s
+                  </button>
+                  <button
+                    class="btn btn-sm btn-primary refresh-btn"
+                    data-ms="5000"
+                    onclick="changeRefreshRate(5000)"
+                  >
+                    5s
+                  </button>
+                  <button
+                    class="btn btn-sm btn-outline-primary refresh-btn"
+                    data-ms="10000"
+                    onclick="changeRefreshRate(10000)"
+                  >
+                    10s
+                  </button>
+                  <button
+                    class="btn btn-sm btn-outline-primary refresh-btn"
+                    data-ms="30000"
+                    onclick="changeRefreshRate(30000)"
+                  >
+                    30s
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 mb-4">
+          <div class="card h-100">
+            <div class="card-header">
+              <div><i class="fas fa-chart-line"></i> Latest Readings</div>
+            </div>
+            <div class="card-body">
+              {% if data and data|length > 0 %} {% set latest = data[0] %}
+              <div class="mb-3">
+                <div class="data-label">
+                  <i class="fas fa-map-marker-alt me-2"></i>Location
+                </div>
+                <div class="value-highlight">
+                  {{ latest.data_sensor.location.value }}
+                </div>
+              </div>
+              <div class="mb-3">
+                <div class="data-label">
+                  <i class="fas fa-globe me-2"></i>Coordinates
+                </div>
+                <div class="value-highlight">
+                  {{ latest.data_sensor.location.context.lat }}, {{
+                  latest.data_sensor.location.context.lng }}
+                </div>
+              </div>
+              <div class="mb-3">
+                <div class="data-label">
+                  <i class="fas fa-temperature-high me-2"></i>Temperature
+                </div>
+                <div class="value-highlight">
+                  {{ latest.data_sensor.temperature.value }}°C
+                </div>
+              </div>
+              <div class="mb-3">
+                <div class="data-label">
+                  <i class="fas fa-tint me-2"></i>Humidity
+                </div>
+                <div class="value-highlight">
+                  {{ latest.data_sensor.humidity.value }}%
+                </div>
+              </div>
+              <div class="mb-3">
+                <div class="data-label">
+                  <i class="fas fa-ruler-vertical me-2"></i>Altitude
+                </div>
+                <div class="value-highlight">
+                  {{ latest.data_sensor.altitude.value }} m
+                </div>
+              </div>
+              <div>
+                <div class="data-label">
+                  <i class="fas fa-satellite me-2"></i>Satellites
+                </div>
+                <div class="value-highlight">
+                  {{ latest.data_sensor.satellite.value }}
+                </div>
+              </div>
+              {% else %}
+              <div class="alert alert-info">No data available</div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div><i class="fas fa-database"></i> Sensor Data History</div>
+          <div>
+            <button
+              type="button"
+              class="btn btn-sm btn-danger"
+              data-bs-toggle="modal"
+              data-bs-target="#deleteConfirmModal"
+            >
+              <i class="fas fa-trash-alt me-1"></i> Delete All Data
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="custom-table-container">
+            <div class="table-scroll-indicator">
+              <i class="fas fa-arrows-left-right me-1"></i> Scroll horizontally
+            </div>
+
+            <!-- Normal table for larger screens -->
+            <table
+              class="table table-hover table-bordered main-table responsive-table"
+            >
+              <thead>
+                <tr>
+                  <th width="50">#</th>
+                  <th>ID</th>
+                  <th>Location</th>
+                  <th>Coordinates</th>
+                  <th>Satellites</th>
+                  <th>Altitude</th>
+                  <th>Temperature</th>
+                  <th>Humidity</th>
+                  <th>Distance</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for item in data %}
+                <tr>
+                  <td data-label="#" class="text-center">
+                    {{ loop.index0 + 1 }}
+                  </td>
+                  <td data-label="ID" class="expandable-cell">
+                    <small class="text-muted truncate-id">{{ item._id }}</small>
+                  </td>
+                  <td data-label="Location" class="expandable-cell">
+                    <span class="truncate-text"
+                      >{{ item.data_sensor.location.value }}</span
+                    >
+                  </td>
+                  <td data-label="Coordinates" class="expandable-cell">
+                    <span class="truncate-text"
+                      >{{ item.data_sensor.location.context.lat }}, {{
+                      item.data_sensor.location.context.lng }}</span
+                    >
+                  </td>
+                  <td data-label="Satellites" class="text-center">
+                    {{ item.data_sensor.satellite.value }}
+                  </td>
+                  <td data-label="Altitude">
+                    {{ item.data_sensor.altitude.value }} m
+                  </td>
+                  <td data-label="Temperature">
+                    {{ item.data_sensor.temperature.value }}°C
+                  </td>
+                  <td data-label="Humidity">
+                    {{ item.data_sensor.humidity.value }}%
+                  </td>
+                  <td data-label="Distance">
+                    {{ item.data_sensor.distance.value }} m
+                  </td>
+                </tr>
+                {% endfor %} {% if not data or data|length == 0 %}
+                <tr>
+                  <td colspan="9" class="text-center">No data available</td>
+                </tr>
+                {% endif %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <p>ESP32-CAM Monitoring System &copy; 2025</p>
+      </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div
+      class="modal fade"
+      id="deleteConfirmModal"
+      tabindex="-1"
+      aria-labelledby="deleteConfirmModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteConfirmModalLabel">
+              <i class="fas fa-exclamation-triangle me-2"></i>Confirm Deletion
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p>
+              Are you sure you want to delete <strong>ALL</strong> records from
+              the database?
+            </p>
+            <p class="text-danger">
+              <strong>Warning:</strong> This action cannot be undone.
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <form action="/delete_all_data" method="POST">
+              <button type="submit" class="btn btn-danger">
+                Delete All Data
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+  </body>
 </html>

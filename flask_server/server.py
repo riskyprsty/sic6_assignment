@@ -19,7 +19,7 @@ except Exception as e:
     print(e)
 
 db = client["UNI022"]
-collection = db["assignment_2"]
+collection = db["assignment2"]
 
 
 app = Flask(__name__)
@@ -28,7 +28,9 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    all_data = list(collection.find())
+    print(all_data)
+    return render_template("index.html",data=all_data)
 
 @app.route("/upload", methods=["POST"])
 def upload():
@@ -36,23 +38,52 @@ def upload():
     if not data:
         return "No image received", 400
 
-   
+
     img_path = os.path.join(UPLOAD_FOLDER, "esp32cam.jpg")
     with open(img_path, "wb") as img_file:
         img_file.write(base64.b64decode(data))
 
     return "Gambar diterima!", 200
 
-@app.route("/insert_data", methods=["POST"])
+@app.route("/tes",methods=["POST"])
+def tes():
+    try:
+        data = request.json
+        print(data)
+        return "tes", 200
+    except Exception as e:
+        print(e)
+
+@app.route("/insert_data_one", methods=["POST"])
 def insert_data():
     try:
         data = request.json
+        print(data)
+        collection.insert_one(data)
+        return "Data berhasil dimasukkan ke database", 200
+    except Exception as e:
+        return str(e), 400
+    
+@app.route("/insert_data_many", methods=["POST"])
+def insert_data_many():
+    try:
+        data = request.json
+        print(data)
         collection.insert_many(data)
         return "Data berhasil dimasukkan ke database", 200
     except Exception as e:
         return str(e), 400
 
 
+@app.route('/delete_all_data', methods=['POST'])
+def delete_all_data():
+    try:
+        collection.delete_many({})
+        return "Data berhasil dihapus", 200
+    except Exception as e:
+        return str(e), 400
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
+    
+    
