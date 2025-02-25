@@ -18,13 +18,13 @@ This project is an assignment for Samsung Innovation Campus Batch 6 (SIC 6)<br><
 </div>
 
 ### Dashboard Links ✨
-<b>📌 Monitoring Dashboard URL: https://sic6.tribone.my.id<br>
-<b>🌐 Ubidots Dashboard URL: https://stem.ubidots.com/app/dashboards/public/dashboard/jF07t8gcQSrJqPXWmpCxxpuVLqKNBSLNvRhIn_x-I8A
+<b>📌 Monitoring Dashboard URL : https://sic6.tribone.my.id<br>
+<b>🌐 Ubidots Dashboard URL : <br>https://stem.ubidots.com/app/dashboards/public/dashboard/jF07t8gcQSrJqPXWmpCxxpuVLqKNBSLNvRhIn_x-I8A
 
 
 # About The Project
 
-<center><a href="docs/project.jpg"><img title="Logo" src="docs/project.jpg" width="500"></a></center><br>
+<center><a href="docs/project.jpg"><img title="Logo" src="docs/project.jpg" width="500" align="center"></a></center><br>
 
 This project is an assignment for the Samsung Innovation Campus (SIC) Batch 6 created by the team <b> UNI022 - The Hash Slinging Slasher.</b> 
 This project is an IoT project that connects microcontroller devices with the Ubidots platform. It utilizes the ESP32 connected to several sensors, including the <b>ESP32 CAM</b>, to transmit live <b>video feeds in real-time</b> to the Ubidots dashboard.
