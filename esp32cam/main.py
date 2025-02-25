@@ -6,7 +6,7 @@ import network
 
 SSID = "Realme GT Neo 3"
 PASSWORD = "qwertyuiop1"
-SERVER_URL = "http://192.168.249.119:5000/upload" 
+SERVER_URL = "http://sic6.tribone.my.id/upload" 
 
 """
 ESP32 MICROPYTHON UBIDOTS PROJECT
