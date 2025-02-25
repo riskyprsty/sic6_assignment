@@ -45,6 +45,7 @@ def upload():
 
     return "Gambar diterima!", 200
 
+@app.route("/insert_data_one", methods=["POST"])
 def insert_data():
     try:
 
