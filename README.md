@@ -1,7 +1,7 @@
 # ESP32 Micropython Ubidots Project ✨
 <div align="center">
 <p align="center">
-<a href="/docs/banner.png"><img title="Logo" src="/docs/banner_rev2.jpeg" width="1000"></a><br>
+<a href="/docs/banner.png"><img title="Logo" src="/docs/banner_rev2.jpeg" width="800"></a><br>
 
 [![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)](https://forthebadge.com) 
 
@@ -19,7 +19,7 @@ This project is an assignment for Samsung Innovation Campus Batch 6 (SIC 6)<br><
 
 # About The Project
 
-![Project](docs/project.jpg)
+<a href="docs/project.jpg"><img title="Logo" src="docs/project.jpg" width="600"></a><br>
 
 This project is an assignment for the Samsung Innovation Campus (SIC) Batch 6 created by the team <b> UNI022 - The Hash Slinging Slasher.</b> 
 This project is an IoT project that connects microcontroller devices with the Ubidots platform. It utilizes the ESP32 connected to several sensors, including the <b>ESP32 CAM</b>, to transmit live <b>video feeds in real-time</b> to the Ubidots dashboard.
