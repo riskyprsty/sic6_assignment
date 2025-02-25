@@ -42,10 +42,13 @@ This project is an assignment for Samsung Innovation Campus Batch 6 (SIC 6)<br><
       </ul>
     </li>
     <li>
-      <a href="#api-documentation">Flask Server API Documentation</a>
+      <a href="#flask-server-api-documentation">Flask Server API Documentation</a>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
+        <li><a href="#base-url">Base URL</a></li>
+        <li><a href="#upload-image">Upload Image</a></li>
+        <li><a href="#insert-single-data">Insert Single Data</a></li>
+        <li><a href="#insert-multiple-data">Insert Multiple Data</a></li>
+        <li><a href="#delete-all-data">Delete All Data</a></li>
       </ul>
     </li>
     <li>
@@ -159,7 +162,7 @@ POST http://sic6.tribone.my.id/insert_data_one
 #### Description
 Inserts a single data into MongoDB
 #### Request Example
-```json
+```
 {
     "data_sensor": {
         "location": {
@@ -213,7 +216,7 @@ POST http://sic6.tribone.my.id/insert_data_many
 Inserts multiple data into MongoDB
 
 #### Request Example
-```json
+```
 {
     "data_sensor_1": {
         ......
@@ -256,3 +259,37 @@ Success (200)
 }
 
 ```
+
+## Usage
+
+### Diagram
+![Wiring](docs/wiring_diagram.png)
+
+### Wiring
+
+| GPS NEO 6M     | ESP32       |
+| ------------- | ------------- |
+|  VCC          |  `3.3V`       |
+|  RX          |  `TX2 (GPIO 17)` |
+|  TX          |  `RX2 (GPIO 16)` |
+|  GND          |  `GND`         |
+
+| HC-SR04    | ESP32       |
+| ------------- | ------------- |
+|  VCC          |  `VIN`       |
+|  TRIG          |  `GPIO 5` |
+|  ECHO          |  `GPIO 18` |
+|  GND          |  `GND`         |
+
+| DHT22    | ESP32       |
+| ------------- | ------------- |
+|  VCC          |  `3.3V`       |
+|  OUT          |  `GPIO 15` |
+|  GND          |  `GND`         |
+
+| OLED   | ESP32       |
+| ------------- | ------------- |
+|  Vin          |  `3.3V`       |
+|  SCL          |  `GPIO 22` |
+|  SDA         |  `GPIO 21` |
+|  GND          |  `GND`         |
