@@ -293,3 +293,8 @@ Success (200)
 |  SCL          |  `GPIO 22` |
 |  SDA         |  `GPIO 21` |
 |  GND          |  `GND`         |
+
+| LED Indicator   | ESP32       |
+| ------------- | ------------- |
+|  +          |  `GPIO 27`       |
+|  -         |  `GND` |
