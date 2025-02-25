@@ -1,7 +1,7 @@
 # ESP32 Micropython Ubidots Project ✨
 <div align="center">
 <p align="center">
-<a href="/docs/banner.png"><img title="Logo" src="/docs/banner.png" width="1000"></a><br>
+<a href="/docs/banner.png"><img title="Logo" src="/docs/banner_rev2.jpeg" width="1000"></a><br>
 
 [![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)](https://forthebadge.com) 
 
@@ -16,3 +16,13 @@ This project is an assignment for Samsung Innovation Campus Batch 6 (SIC 6)<br><
 </center>
 </p>
 </div>
+
+# About The Project
+
+![Project](docs/project.jpg)
+
+This project is an assignment for the Samsung Innovation Campus (SIC) Batch 6 created by the team <b> UNI022 - The Hash Slinging Slasher.</b> 
+This project is an IoT project that connects microcontroller devices with the Ubidots platform. It utilizes the ESP32 connected to several sensors, including the <b>ESP32 CAM</b>, to transmit live <b>video feeds in real-time</b> to the Ubidots dashboard.
+
+This IoT system also integrates several communication protocols simultaneously, such as <b>MQTT to connect with the Ubidots platform</b> and the <b>HTTP protocol to connect to the Rest API created with Python Flask</b>. In addition to sending data to Ubidots, the microcontroller also sends data to the Rest API for data logging, which is then stored in the <b>MongoDB database.</b>
+
