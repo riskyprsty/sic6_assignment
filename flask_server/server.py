@@ -1,8 +1,8 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template,jsonify
 import base64
 import os
 import pymongo # meng-import library pymongo yang sudah kita install
-
+import json
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 
@@ -53,21 +53,31 @@ def tes():
         return "tes", 200
     except Exception as e:
         print(e)
-
 @app.route("/insert_data_one", methods=["POST"])
 def insert_data():
     try:
-        data = request.json
-        print(data)
-        collection.insert_one(data)
-        return "Data berhasil dimasukkan ke database", 200
+
+        request_data = request.get_json(force=True)  
+
+        
+        result = collection.insert_one(request_data)
+        
+        return jsonify({
+            "message": "Data berhasil dimasukkan ke database",
+            "inserted_id": str(result.inserted_id)
+        }), 200
+    
     except Exception as e:
-        return str(e), 400
+        print("Error detail:", str(e))
+        import traceback
+        traceback.print_exc()
+        
+        return jsonify({"error": str(e)}), 400
     
 @app.route("/insert_data_many", methods=["POST"])
 def insert_data_many():
     try:
-        data = request.json
+        data = request.get_json()
         print(data)
         collection.insert_many(data)
         return "Data berhasil dimasukkan ke database", 200
