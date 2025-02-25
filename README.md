@@ -31,11 +31,11 @@ This project is an assignment for Samsung Innovation Campus Batch 6 (SIC 6)<br><
       <a href="#about-the-project">About The Project</a>
       <ul>
         <li><a href="#concept">Concept</a></li>
-        <li><a href="#conclusion">Conclusion</a></li>
+        <li><a href="#project-structure">Project Structure</a></li>
       </ul>
     </li>
     <li>
-      <a href="#getting-started">Getting Started</a>
+      <a href="#api-documentation">API Documentation</a>
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
@@ -74,3 +74,23 @@ This IoT system also integrates several communication protocols simultaneously, 
 ## Concept
 
 ![Diagrams](docs/diagram.png)
+
+## Project Structure
+```
+/docs # Contains project documentation
+└── ....
+/esp32 # Contains ESP32 micropython source code
+├── lib/ # External libraries
+├── boot.py
+└── main.py
+/esp32cam # Contains ESP32CAM micropython source code
+├── lib/ # External libraries
+├── boot.py
+└── main.py
+/flask_server # Contains Flask Server source code
+├── templates/ # Contains HTML Pages for sic6.tribone.my.id
+├── server_forwarder.py # Obsolete forwarder server for ESPCAM (not used)
+└── server.py # Main source code for Flask Server
+```
+
+
