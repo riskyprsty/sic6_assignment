@@ -35,7 +35,14 @@ This project is an assignment for Samsung Innovation Campus Batch 6 (SIC 6)<br><
       </ul>
     </li>
     <li>
-      <a href="#api-documentation">API Documentation</a>
+      <a href="#dashboard-screenshot">Dashboard Screenshot 📷</a>
+      <ul>
+        <li><a href="#monitoring-dashboard-website">Monitoring Dashboard Website</a></li>
+        <li><a href="#ubidots-dashboard">Ubidots Dashboard</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#api-documentation">Flask Server API Documentation</a>
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
@@ -93,4 +100,159 @@ This IoT system also integrates several communication protocols simultaneously, 
 └── server.py # Main source code for Flask Server
 ```
 
+## Dashboard Screenshot 📷
+### Monitoring Dashboard Website
+![SIC6](docs/dashboard.png)
+Accessible via <b>https://sic6.tribone.my.id</b><br>
 
+### Ubidots Dashboard
+<div align="center">
+<p align="center">
+<a href="/docs/banner.png"><img title="Logo" src="/docs/banner_rev2.jpeg" width="500"></a><br>
+</p>
+</div>
+
+Accessible via
+<b>https://stem.ubidots.com/app/dashboards/public/dashboard/jF07t8gcQSrJqPXWmpCxxpuVLqKNBSLNvRhIn_x-I8A</b>
+
+## Flask Server API Documentation
+#### Base URL
+```bash
+http://sic6.tribone.my.id
+```
+
+### Upload Image    
+#### Endpoint
+```bash
+POST http://sic6.tribone.my.id/upload
+```
+#### Description
+Receives a base64-encoded image from an ESP32-CAM and saves it as esp32cam.jpg.
+#### Request Example
+```json
+{
+  "image": "/9j/4AAQSkZJRgABAQEAAAAAAAD..."
+}
+```
+#### Response Example
+Success (200)
+```json
+{
+  "message": "Gambar diterima!"
+}
+
+```
+Error (400)
+```json
+{
+  "error": "No image received"
+}
+
+```
+
+### Insert Single Data
+#### Endpoint
+```bash
+POST http://sic6.tribone.my.id/insert_data_one
+```
+
+#### Description
+Inserts a single data into MongoDB
+#### Request Example
+```json
+{
+    "data_sensor": {
+        "location": {
+            "value": var,
+            "context": {
+                "lat": lat,
+                "lng": lon
+            }
+        },
+        "satellite": {
+            "value": sat
+        },
+        "altitude": {
+            "value": alt
+        },
+        "temperature": {
+            "value": temp
+        },
+        "humidity": {
+            "value": hum
+        },
+        "distance": {
+            "value": dist
+        }
+    }
+}
+```
+#### Response Example
+Success (200)
+```json
+{
+  "message": "Data berhasil dimasukkan ke database",
+  "inserted_id": "...."
+}
+
+
+```
+Error (400)
+```json
+{
+  "error": "Invalid JSON format"
+}
+```
+### Insert Multiple Data
+#### Endpoint
+```bash
+POST http://sic6.tribone.my.id/insert_data_many
+```
+
+#### Description
+Inserts multiple data into MongoDB
+
+#### Request Example
+```json
+{
+    "data_sensor_1": {
+        ......
+    },
+    "data_sensor_2": {
+        ......
+    },
+    ...
+}
+```
+#### Response Example
+Success (200)
+```json
+{
+  "message": "Data berhasil dimasukkan ke database"
+}
+
+```
+Error (400)
+```json
+{
+  "error": "Invalid JSON format"
+}
+```
+
+### Delete All Data
+#### Endpoint
+```bash
+GET http://sic6.tribone.my.id/delete_all_data
+```
+
+#### Description
+Deletes all data from MongoDB Collection
+
+#### Response Example
+Success (200)
+```json
+{
+  "message": "Data berhasil dihapus"
+}
+
+```
