@@ -100,7 +100,7 @@ def send_data(var, lat, lon, sat, alt, temp, hum, dist):
     }
 
     
-    results = requests.post("http://192.168.0.101:5000/insert_data_one", json=(data),headers=HEADERS)
+    results = requests.post("http://sic6.tribone.my.id/insert_data_one", json=(data),headers=HEADERS)
     print(results.text)
     results.close()
 
