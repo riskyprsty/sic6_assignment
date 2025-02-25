@@ -130,7 +130,7 @@ def main():
                         sat = my_gps.satellites_in_use
                         alt = my_gps.altitude
                         var = repr(pin13.value())
-                        
+                        oled.fill(0)
                         msg = b'{"location": {"value":%s, "context":{"lat":%s, "lng":%s}}, "sattelite": {"value":%s}, "altitude": {"value":%s}, "temperature": {"value":%s}, "humidity": {"value":%s}, "distance": {"value":%s}}' % (var, lat, lon, sat, alt, temp, hum, dist)
                         # print(msg)
                         client.publish(b"/v1.6/devices/ESP32_THSS", msg)

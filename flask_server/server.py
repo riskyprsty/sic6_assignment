@@ -45,15 +45,6 @@ def upload():
 
     return "Gambar diterima!", 200
 
-@app.route("/tes",methods=["POST"])
-def tes():
-    try:
-        data = request.json
-        print(data)
-        return "tes", 200
-    except Exception as e:
-        print(e)
-@app.route("/insert_data_one", methods=["POST"])
 def insert_data():
     try:
 
@@ -85,7 +76,7 @@ def insert_data_many():
         return str(e), 400
 
 
-@app.route('/delete_all_data', methods=['POST'])
+@app.route('/delete_all_data', methods=['GET'])
 def delete_all_data():
     try:
         collection.delete_many({})
