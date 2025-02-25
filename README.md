@@ -17,19 +17,59 @@ This project is an assignment for Samsung Innovation Campus Batch 6 (SIC 6)<br><
 </p>
 </div>
 
-### Dashboard Links ✨
-<b>📌 Monitoring Dashboard URL : https://sic6.tribone.my.id<br>
-<b>🌐 Ubidots Dashboard URL : <br>https://stem.ubidots.com/app/dashboards/public/dashboard/jF07t8gcQSrJqPXWmpCxxpuVLqKNBSLNvRhIn_x-I8A
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#dashboard-links">Dashboard Links ✨</a>
+      <ul>
+        <li><a href="#monitoring-dashboard-url">📌 Monitoring Dashboard URL</a></li>
+        <li><a href="#ubidots-dashboard-url">🌐 Ubidots Dashboard URL</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#concept">Concept</a></li>
+        <li><a href="#conclusion">Conclusion</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li>
+    <a href="#usage">Usage</a>
+          <ul>
+        <li><a href="#diagram">Diagram</a></li>
+        <li><a href="#wiring">Wiring</a></li>
+      </ul>
+    </li>
+  </ol>
+</details>
 
+## Dashboard Links ✨
+### 📌 Monitoring Dashboard URL : 
+<b>https://sic6.tribone.my.id</b><br>
+
+### 🌐 Ubidots Dashboard URL : <br>
+<b>https://stem.ubidots.com/app/dashboards/public/dashboard/jF07t8gcQSrJqPXWmpCxxpuVLqKNBSLNvRhIn_x-I8A</b>
 
 # About The Project
 
-<center><a href="docs/project.jpg"><img title="Logo" src="docs/project.jpg" width="500" align="center"></a></center><br>
+<div align="center">
+<p align="center">
+<a href="docs/project.jpg"><img title="Project" src="docs/project.jpg" width="500"></a><br>
 
 This project is an assignment for the Samsung Innovation Campus (SIC) Batch 6 created by the team <b> UNI022 - The Hash Slinging Slasher.</b> 
 This project is an IoT project that connects microcontroller devices with the Ubidots platform. It utilizes the ESP32 connected to several sensors, including the <b>ESP32 CAM</b>, to transmit live <b>video feeds in real-time</b> to the Ubidots dashboard.
 
 This IoT system also integrates several communication protocols simultaneously, such as <b>MQTT to connect with the Ubidots platform</b> and the <b>HTTP protocol to connect to the Rest API created with Python Flask</b>. In addition to sending data to Ubidots, the microcontroller also sends data to the Rest API for data logging, which is then stored in the <b>MongoDB database.</b>
+</p>
+</div>
 
 ## Concept
 
